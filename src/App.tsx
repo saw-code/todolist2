@@ -3,7 +3,6 @@ import './App.css';
 import {Todolist} from './Todolist';
 import {v1} from 'uuid';
 
-
 type ObjectType = {
   title: string
   filter: FilterValuesType
@@ -17,7 +16,6 @@ export type TasksType = {
 }
 
 export type FilterValuesType = "all" | "active" | "completed";
-
 
 function App() {
 
