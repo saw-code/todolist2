@@ -1,58 +1,39 @@
-import {FilterValuesType, TodolistType} from "../App";
-import {v1} from "uuid";
+import {TasksStateType} from "../App";
 
-export type RemoveTodolistActionType = {
-  type: "REMOVE-TODOLIST",
-  id: string
+export type RemoveTaskActionType = ReturnType<typeof removeTaskAC>
+
+export type SecondActionType = {
+  type: ""
 }
 
-export type AddTodolistActionType = {
-  type: "ADD-TODOLIST",
-  title: string
-}
+type ActionsType = RemoveTaskActionType | SecondActionType
 
-export type ChangeTodolistTitleActionType = {
-  type: "CHANGE-TODOLIST-TITLE",
-  id: string
-  title: string
-}
 
-export type ChangeTodolistFilterActionType = {
-  type: "CHANGE-TODOLIST-FILTER",
-  id: string
-  filter: FilterValuesType
-}
-
-type MainType = RemoveTodolistActionType
-  | AddTodolistActionType
-  | ChangeTodolistTitleActionType
-  | ChangeTodolistFilterActionType
-
-export const todolistsReducer = (state: Array<TodolistType>, action: MainType) => {
+export const tasksReducer = (state: TasksStateType, action: ActionsType): TasksStateType => {
   switch (action.type) {
-    case "REMOVE-TODOLIST": {
-      return state.filter(tl => tl.id !== action.id)
+    case "REMOVE-TASK": {
+      return {...state,
+        [action.todolistId]: state[action.todolistId].filter(el => el.id !== action.taskId)}
     }
-    case "ADD-TODOLIST" : {
-      return [...state, {id: v1(), title: action.title, filter: "all"}]
+    case "" : {
+      return state
     }
-    case "CHANGE-TODOLIST-TITLE": {
-      return state.map(el => el.id === action.id ? {...el, title: action.title} : el)
-    }
-    case "CHANGE-TODOLIST-FILTER": {
-      let todolist = state.find(tl => tl.id === action.id)
-      if (todolist) {
-        todolist.filter = action.filter;
-      }
-      return [...state]
-    }
+
     default:
       throw new Error("I don't understand this action type")
   }
 }
 
-export const RemoveTodolistAC = (todolistId: string): RemoveTodolistActionType => {
+export const removeTaskAC = (taskId: string, todolistId: string) => {
   return {
-    type: "REMOVE-TODOLIST",
-    id: todolistId}
+    type: "REMOVE-TASK",
+    taskId,
+    todolistId
+  } as const
+}
+
+export const secondAC = (todolistId: string): SecondActionType => {
+  return {
+    type: ""
+  }
 }
