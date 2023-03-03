@@ -28,7 +28,7 @@ export const todoListsReducer = (state: TodolistType[], {type, payload}: MainTyp
 
 type MainType = RemoveTodolistACType | ChangeFilterACType | ChangeTodolistTitleACType | AddTodolistACType
 
-type RemoveTodolistACType = ReturnType<typeof removeTodolistAC>
+export type RemoveTodolistACType = ReturnType<typeof removeTodolistAC>
 type ChangeFilterACType = ReturnType<typeof changeFilterAC>
 type ChangeTodolistTitleACType = ReturnType<typeof changeTodolistTitleAC>
 export type AddTodolistACType = ReturnType<typeof addTodolistAC>
